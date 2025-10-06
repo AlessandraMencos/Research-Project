@@ -7,7 +7,10 @@ OriginalData <- OriginalData %>% mutate(time_since_diagnosis_years = ifelse(
   OriginalData$time_since_diagnosis_years == 0, NA, time_since_diagnosis_years))
 shapiro.test(OriginalData$opg_pg_ml)
 cor.test(OriginalData$sledai_score, OriginalData$opg_pg_ml, method = ("pearson"))
+
+##do this for al variables and then combine into a list
 SLEDAI_counts <- OriginalData %>% group_by(sledai_score) %>% reframe(count = n())
+
 barplot(SLEDAI_counts$count, 
         axes = T, axisnames = T, xlab = "SLEDAI score", ylab = "Count", 
         col = "cyan", names.arg = SLEDAI_counts$sledai_score, cex.names = 0.8)
@@ -155,5 +158,4 @@ rm(correlations, shapiro_results, shapiro_results_p)
 library(psych)
 describe(Normalizedbyconfounding)
 
-#hi :)
 ##Moving o from the 
