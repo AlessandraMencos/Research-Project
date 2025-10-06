@@ -8,14 +8,14 @@ OriginalData <- OriginalData %>%
 shapiro.test(OriginalData$opg_pg_ml)
 cor.test(OriginalData$sledai_score, OriginalData$opg_pg_ml, method = ("pearson"))
 
-##do this for al variables and then combine into a list
+##do this for all variables and then combine into a list
 SLEDAI_counts <- OriginalData %>% group_by(sledai_score) %>% reframe(count = n())
 
 barplot(SLEDAI_counts$count, 
         axes = T, axisnames = T, xlab = "SLEDAI score", ylab = "Count", 
         col = "cyan", names.arg = SLEDAI_counts$sledai_score, cex.names = 0.8)
 patientsSLescore <- OriginalData %>% group_by(sledai_score) %>% reframe(opg_pg_ml)
-par(cex.axis = 0.7)
+par(cex.axis = 0.7, mfrow = c(1,1))
 boxplot(patientsSLescore$opg_pg_ml ~ patientsSLescore$sledai_score, 
         col = 'pink', xlab = 'SLEDAI score', ylab = "OPG plasma levels (pg/mL)")
 
@@ -39,7 +39,7 @@ colnames(OPGbyAge) <- c('Patient ID', 'SLEDAI 2k score', 'OPG [pg/mL]',
                         'Age (years)', 'OPG [pg/mL] normalized by Age')
 cor.test(OPGbyAge$`OPG [pg/mL] normalized by Age`, OPGbyAge$`SLEDAI 2k score`)
 boxplot(OPGbyAge$`OPG [pg/mL] normalized by Age` ~ OPGbyAge$`SLEDAI 2k score`,
-        xlab = 'Age in years', ylab = 'OPG [pg/mL] normalized by age')
+        xlab = 'SLEDAI 2k score', ylab = 'OPG [pg/mL] normalized by age')
 
 ##One singular data frame
 Normalizedbyconfounding <- data.frame(OriginalData$sub_id, OriginalData$sledai_score, 
@@ -83,7 +83,7 @@ boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Time since diagnosis 
         xlab = 'SLEDAI score', ylab = 'OPG [pg/mL] normalized by time since diagnosis (years)',
         col = 'green')
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Time since diagnosis (years)`~OriginalData$time_since_diagnosis_years, 
-        xlab = 'Time since diagnosis (years)', ylab = 'OPG [pg/mL] normalized by Age at diagnosis (years)', 
+        xlab = 'Time since diagnosis (years)', ylab = 'OPG [pg/mL] normalized by Time since diagnosis (years)', 
         col = "darkgreen")
 #age
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Age (years)`~Normalizedbyconfounding$`SLEDAI 2k score`, 
