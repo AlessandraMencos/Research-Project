@@ -2,8 +2,9 @@ library(readxl)
 library(dplyr)
 OriginalData <- read_excel("g1_s1_dataset_v251001.xlsx")
 View(OriginalData)
-OriginalData <- OriginalData %>% mutate(time_since_diagnosis_years = ifelse(
-  OriginalData$time_since_diagnosis_years == 0, NA, time_since_diagnosis_years))
+##OriginalData <- OriginalData %>% mutate(time_since_diagnosis_years = ifelse(OriginalData$time_since_diagnosis_years == 0, NA, time_since_diagnosis_years))
+OriginalData <- OriginalData %>% 
+  mutate(time_since_diagnosis_years = time_since_diagnosis_years + 1)
 shapiro.test(OriginalData$opg_pg_ml)
 cor.test(OriginalData$sledai_score, OriginalData$opg_pg_ml, method = ("pearson"))
 
@@ -157,4 +158,11 @@ rm(correlations, shapiro_results, shapiro_results_p)
 library(psych)
 describe(Normalizedbyconfounding)
 
-##Moving on from the confounding, we can do a similar thing for the 
+##Moving on from the confounding, we can do a similar thing for the biomarkers
+biomarkers <- data_frame(OriginalData$vwf_iu_dl, OriginalData$sdc1_ng_ml, 
+                         OriginalData$tm_ng_ml, OriginalData$ox_ldl_ng_ml, 
+                         OriginalData$svcam1_ng_ml, OriginalData$ldh_u_l)
+names(biomarkers) <- c('von Willebrand Factor', 'soluble DC-1', 
+                       'Thrombomodulin', 'oxidized LDL', 'soluble VCAM-1', 'LDH')
+summary(biomarkers)
+describe(biomarkers)
