@@ -159,7 +159,16 @@ rm(correlations, shapiro_results, shapiro_r$etsults_p)
 model <- lm(opg_pg_ml ~ age_at_diagnosis_years + time_since_diagnosis_years +
               age_years + bmi_kg_m2 + ifn_type1_iu_ml + ethnicity + menopausal_status, 
             data = OriginalData)
+summary(model)
 plot(model)
+model1 <- as.data.frame(model[["fitted.values"]])
+opg_sledai <- data.frame(OriginalData$sledai_score, model$fitted.values)
+opg_sledai <- data.frame(opg_sledai$OriginalData.sledai_score, opg_sledai$model.fitted.values)
+colnames(opg_sledai) <- c('SLEDAI 2k score', 'Adjusted OPG [pg/mL}')
+rm(opg_sleda)
+ggplot(data = opg_sledai, aes(`SLEDAI 2k score`, `Adjusted OPG [pg/mL}`)) +
+  + geom_point(size = 2, shape = 21) 
+plot(opg_sledai$`SLEDAI 2k score`, opg_sledai$`Adjusted OPG [pg/mL}`)
 
 library(psych)
 describe(Normalizedbyconfounding)
