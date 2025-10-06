@@ -181,3 +181,21 @@ names(biomarkers) <- c('von Willebrand Factor', 'soluble DC-1',
                        'Thrombomodulin', 'oxidized LDL', 'soluble VCAM-1', 'LDH')
 summary(biomarkers)
 describe(biomarkers)
+vWF_model <- lm(vwf_iu_dl ~ age_at_diagnosis_years + time_since_diagnosis_years +
+              age_years + bmi_kg_m2 + ifn_type1_iu_ml + ethnicity + menopausal_status, 
+            data = OriginalData)
+sDC1_model <- lm(sdc1_ng_ml ~ age_at_diagnosis_years + time_since_diagnosis_years +
+                  age_years + bmi_kg_m2 + ifn_type1_iu_ml + ethnicity + menopausal_status, 
+                data = OriginalData)
+tm_model <- lm(tm_ng_ml~ age_at_diagnosis_years + time_since_diagnosis_years +
+                  age_years + bmi_kg_m2 + ifn_type1_iu_ml + ethnicity + menopausal_status, 
+                data = OriginalData)
+oxLDL_model <- lm(OriginalData$ox_ldl_ng_ml ~ age_at_diagnosis_years + time_since_diagnosis_years +
+                  age_years + bmi_kg_m2 + ifn_type1_iu_ml + ethnicity + menopausal_status, 
+                data = OriginalData)
+sVCAM1_model <- lm(svcam1_ng_ml ~ age_at_diagnosis_years + time_since_diagnosis_years +
+                  age_years + bmi_kg_m2 + ifn_type1_iu_ml + ethnicity + menopausal_status, 
+                data = OriginalData)
+LDL_model <- lm(ldh_u_l ~ age_at_diagnosis_years + time_since_diagnosis_years +
+                  age_years + bmi_kg_m2 + ifn_type1_iu_ml + ethnicity + menopausal_status, 
+                data = OriginalData)
