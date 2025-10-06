@@ -153,13 +153,19 @@ stat_norm_conf <- data.frame(correlations$correlations,
                              shapiro_results_confounding$`P-value`)
 row.names(stat_norm_conf) <- cols
 colnames(stat_norm_conf) <- c('Correlation Coefficient', 'Shapiro W statistic', 'Shapiro P-value')
-rm(correlations, shapiro_results, shapiro_results_p)
+rm(correlations, shapiro_results, shapiro_r$etsults_p)
+
+##plots
+model <- lm(opg_pg_ml ~ age_at_diagnosis_years + time_since_diagnosis_years +
+              age_years + bmi_kg_m2 + ifn_type1_iu_ml + ethnicity + menopausal_status, 
+            data = OriginalData)
+plot(model)
 
 library(psych)
 describe(Normalizedbyconfounding)
 
 ##Moving on from the confounding, we can do a similar thing for the biomarkers
-biomarkers <- data_frame(OriginalData$vwf_iu_dl, OriginalData$sdc1_ng_ml, 
+biomarkers <- data.frame(OriginalData$vwf_iu_dl, OriginalData$sdc1_ng_ml, 
                          OriginalData$tm_ng_ml, OriginalData$ox_ldl_ng_ml, 
                          OriginalData$svcam1_ng_ml, OriginalData$ldh_u_l)
 names(biomarkers) <- c('von Willebrand Factor', 'soluble DC-1', 
