@@ -1,4 +1,3 @@
-setwd("/Users/alessandramencos/BBIM01/Research Project")
 library(readxl)
 library(dplyr)
 OriginalData <- read_excel("g1_s1_dataset_v251001.xlsx")
