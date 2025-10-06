@@ -158,4 +158,4 @@ rm(correlations, shapiro_results, shapiro_results_p)
 library(psych)
 describe(Normalizedbyconfounding)
 
-##Moving o from the 
+##Moving on from the confounding, we can do a similar thing for the 
