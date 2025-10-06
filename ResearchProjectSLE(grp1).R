@@ -57,44 +57,54 @@ colnames(Normalizedbyconfounding) <- c('Patient ID', 'SLEDAI 2k score',
                                        'OPG [pg/ml] normalized by Menopausal Status')
 par(cex.axis = 0.7, mfrow = c(1,2), cex = 0.7)
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Menopausal Status`~dummy_menopause$OriginalData.menopausal_status,
-        xlab = 'Menopausal Status', ylab = 'OPG [pg/mL] normalized by menopausal status')
+        xlab = 'Menopausal Status', ylab = 'OPG [pg/mL] normalized by menopausal status', col = "magenta")
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Menopausal Status`~Normalizedbyconfounding$`SLEDAI 2k score`, 
-        xlab = 'SLEDAI 2k score', ylab = 'OPG [pg.mL] normalized by menopausal status')
+        xlab = 'SLEDAI 2k score', ylab = 'OPG [pg.mL] normalized by menopausal status', col = "darkmagenta")
 
 par(cex.axis = 0.7, mfrow = c(1,2), cex = 0.7)
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Ethnictiy`~dummy_ethnicity$OriginalData.ethnicity,
-        xlab = 'Ethnicity', ylab = 'OPG [pg/mL] normalized by ethnicity')
+        xlab = 'Ethnicity', ylab = 'OPG [pg/mL] normalized by ethnicity', col = "darkslategrey")
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Ethnictiy`~Normalizedbyconfounding$`SLEDAI 2k score`,
-        xlab = 'SLEDAI 2K score', ylab = 'OPG [pg/mL] normalized by ethnicity')
+        xlab = 'SLEDAI 2K score', ylab = 'OPG [pg/mL] normalized by ethnicity', col = "slategrey")
 
 par(cex.axis = 0.7, mfrow = c(1,2), cex = 0.7)
 #age at diagnosis
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Age at diagnosis (years)`~Normalizedbyconfounding$`SLEDAI 2k score`, 
-        xlab = 'SLEDAI score', ylab = 'OPG [pg/mL] normalized by Age at diagnosis (years)')
+        xlab = 'SLEDAI score', ylab = 'OPG [pg/mL] normalized by Age at diagnosis (years)', 
+        col = 'blue')
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Age at diagnosis (years)`~OriginalData$age_at_diagnosis_years, 
-        xlab = 'Age at diagnosis (years)', ylab = 'OPG [pg/mL] normalized by Age at diagnosis (years)')
+        xlab = 'Age at diagnosis (years)', ylab = 'OPG [pg/mL] normalized by Age at diagnosis (years)', 
+        col = 'cyan')
 #time since diagnosis
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Time since diagnosis (years)`~Normalizedbyconfounding$`SLEDAI 2k score`, 
-        xlab = 'SLEDAI score', ylab = 'OPG [pg/mL] normalized by time since diagnosis (years)')
+        xlab = 'SLEDAI score', ylab = 'OPG [pg/mL] normalized by time since diagnosis (years)',
+        col = 'green')
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Time since diagnosis (years)`~OriginalData$time_since_diagnosis_years, 
-        xlab = 'Time since diagnosis (years)', ylab = 'OPG [pg/mL] normalized by Age at diagnosis (years)')
+        xlab = 'Time since diagnosis (years)', ylab = 'OPG [pg/mL] normalized by Age at diagnosis (years)', 
+        col = "darkgreen")
 #age
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Age (years)`~Normalizedbyconfounding$`SLEDAI 2k score`, 
-        xlab = 'SLEDAI score', ylab = 'OPG [pg/mL] normalized by Age (years)')
+        xlab = 'SLEDAI score', ylab = 'OPG [pg/mL] normalized by Age (years)', 
+        col = "yellow")
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by Age (years)`~OriginalData$age_years, 
-        xlab = 'Patient Age (years)', ylab = 'OPG [pg/mL] normalized by Age (years)')
+        xlab = 'Patient Age (years)', ylab = 'OPG [pg/mL] normalized by Age (years)', 
+        col = "gold")
 #BMI
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by BMI (kg/m^2)`~Normalizedbyconfounding$`SLEDAI 2k score`, 
-        xlab = 'SLEDAI score', ylab = 'OPG [pg/mL] normalized by BMI (kg/m^2)')
+        xlab = 'SLEDAI score', ylab = 'OPG [pg/mL] normalized by BMI (kg/m^2)', 
+        col = "brown")
 #plot(OriginalData$bmi_kg_m2, Normalizedbyconfounding$`OPG [pg/ml] normalized by BMI (kg/m^2)`,
         #xlab = 'Patient BMI (kg/m^2)', ylab = 'OPG [pg/mL] normalized by BMI (kg/m^2)')
 plot(OriginalData$bmi_kg_m2, Normalizedbyconfounding$`OPG [pg/ml] normalized by BMI (kg/m^2)`,
-     xlab = 'Patient BMI (kg/m^2)', ylab = 'OPG [pg/mL] normalized by BMI (kg/m^2)')
+     xlab = 'Patient BMI (kg/m^2)', ylab = 'OPG [pg/mL] normalized by BMI (kg/m^2)', 
+     col = "darkorange")
 #IFN expression
 boxplot(Normalizedbyconfounding$`OPG [pg/ml] normalized by IFN expression`~Normalizedbyconfounding$`SLEDAI 2k score`, 
-        xlab = 'SLEDAI score', ylab = 'OPG [pg/mL] normalized by IFN expression [IU/mL)')
+        xlab = 'SLEDAI score', ylab = 'OPG [pg/mL] normalized by IFN expression [IU/mL)', 
+        col = "red")
 plot(OriginalData$ifn_type1_iu_ml, Normalizedbyconfounding$`OPG [pg/ml] normalized by IFN expression`, 
-     xlab = 'IFN [IU/mL]', ylab = 'OPG [pg/mL] normalized by IFN expression [IU/mL]')
+     xlab = 'IFN [IU/mL]', ylab = 'OPG [pg/mL] normalized by IFN expression [IU/mL]', 
+     col = "pink")
 
 #CORRELATION
 ##1 issue: some of the times since diagnosis are '0', which means that when normalizing the value is
