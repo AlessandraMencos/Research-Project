@@ -67,7 +67,7 @@ plot(OriginalData$`SLEDAI 2k Score`, OriginalData$`Plasma OPG [pg/mL]`,
 axis(side = 1, at = seq(0, 28, by = 1))
 
 ##Linear Regression
-model <- lm(`Plasma OPG [pg/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
+model <- glm(`Plasma OPG [pg/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
             `Age (years)` + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`, 
             data = OriginalData)
 summary(model)
@@ -100,22 +100,22 @@ names(biomarkers) <- c('von Willebrand Factor', 'soluble DC-1',
 summary(biomarkers)
 
 #create a linear model for each of the biomarkers
-vWF_model <- lm(`vWF [IU/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
+vWF_model <- glm(`vWF [IU/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
                   `Age (years)` + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`, 
             data = OriginalData)
-sDC1_model <- lm(`sDC1 [ng/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
+sDC1_model <- glm(`sDC1 [ng/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
                    `Age (years)` + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`,
                 data = OriginalData)
-tm_model <- lm(`TM [ng/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
+tm_model <- glm(`TM [ng/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
                  `Age (years)` + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`,
                 data = OriginalData)
-oxLDL_model <- lm(`ox LDL [ng/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
+oxLDL_model <- glm(`ox LDL [ng/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
                     `Age (years)` + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`,
                 data = OriginalData)
-sVCAM1_model <- lm(`sVCAM-1 [ng/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
+sVCAM1_model <- glm(`sVCAM-1 [ng/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
                      `Age (years)` + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`,
                 data = OriginalData)
-LDL_model <- lm(`LDH [u/L]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
+LDL_model <- glm(`LDH [u/L]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
                   `Age (years)` + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`,
                 data = OriginalData)
 
