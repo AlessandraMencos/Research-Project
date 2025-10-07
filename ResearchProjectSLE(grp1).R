@@ -19,10 +19,14 @@ colnames(OriginalData) <- c('Patient ID', 'Age at Diagnosis (years)', 'Time sinc
 #since time since diagnosis has values equal to 0, we're going to add 1 to each of those (ie. 0+1 =1, etc)
 OriginalData <- OriginalData %>% 
   mutate(`Time since Diagnosis (years)` = `Time since Diagnosis (years)` + 1)
+OriginalData <- OriginalData %>% 
+  mutate(Ethnicity = factor(Ethnicity))
+OriginalData <- OriginalData %>% 
+  mutate(`Menopausal Status` = factor(`Menopausal Status`))
 
 #some stat tests for OPG levels to see how it's distributed and possible correlation to SLEDAI score
 shapiro.test(OriginalData$`Plasma OPG [pg/mL]`)
-cor.test(OriginalData$`SLEDAI 2k Score`, OriginalData$`Plasma OPG [pg/mL]`, method = ("pearson"))
+#cor.test(OriginalData$`SLEDAI 2k Score`, OriginalData$`Plasma OPG [pg/mL]`, method = ("pearson"))
 
 #make a list of all the column names so that you can create functions
 col_names <- c('Patient ID', 'Age at Diagnosis (years)', 'Time since Diagnosis (years)', 
@@ -74,8 +78,8 @@ boxplot(OriginalData$`Plasma OPG [pg/mL]`~OriginalData$`SLEDAI 2k Score`,
 axis(side = 1, at = seq(0, 28, by = 1))
 
 ##Linear Regression
-model <- glm(`Plasma OPG [pg/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
-            `Age (years)` + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`, 
+model <- glm(`Plasma OPG [pg/mL]` ~ `SLEDAI 2k Score` + `Age at Diagnosis (years)` + `Time since Diagnosis (years)`
+             + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`, 
             data = OriginalData)
 summary(model)
 #model_sledai <- glm(`SLEDAI 2k Score` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
