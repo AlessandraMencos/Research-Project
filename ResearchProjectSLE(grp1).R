@@ -63,16 +63,7 @@ for (name in names(Counts)) {
     col = "lightblue")
   text(x = bars, y = df$count, labels = df$count, pos = 1, cex = 0.5, col = 'black')
 }
-<<<<<<< HEAD
 rm(df, name, bars)
-=======
-<<<<<<< HEAD
-rm(df, name, bars)
-=======
-rm(df)
-rm(name)
->>>>>>> c61c496c117361bc4d04cf695405dba557a93aab
->>>>>>> ea9284f001ab692a17cad3725c5108d0f42ae3c5
 
 par(cex.axis = 0.7, mfrow = c(1,2))
 plot(OriginalData$`SLEDAI 2k Score`, OriginalData$`Plasma OPG [pg/mL]`,
