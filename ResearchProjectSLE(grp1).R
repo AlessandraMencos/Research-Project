@@ -55,8 +55,7 @@ for (name in names(Counts)) {
     df$count,
     names.arg = df[[1]],
     main = paste("Counts of", name),
-    col = "lightblue",
-    las = 2)
+    col = "lightblue")
 }
 
 par(cex.axis = 0.7, mfrow = c(1,1))
