@@ -237,3 +237,5 @@ boxplot(adjusted_biomarkers$`LDH [u/L]`~OriginalData$`SLEDAI 2k Score`,
         xlab = 'SLEDAI 2K score', ylab = NULL, col = 'seagreen3',
         xlim = c(0, 28), xaxt = 'n')
 axis(side = 1, at = seq(0, 28, by = 1))
+
+##end
