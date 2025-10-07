@@ -51,18 +51,26 @@ names_to_skip_in_plots <- c('Patient ID', 'BMI (kg/m^2)', 'IFN type I [IU/mL]',
 for (name in names(Counts)) {
   if (name %in% names_to_skip_in_plots) next
   df <- Counts[[name]]
-  barplot(
+  par(mfrow = c(1,1))
+  bars <- barplot(
     df$count,
     names.arg = df[[1]],
     main = paste("Counts of", name),
     col = "lightblue")
+  text(x = bars, y = df$count, labels = df$count, pos = 1, cex = 0.5, col = 'black')
 }
+rm(df, name, bars)
 
-par(cex.axis = 0.7, mfrow = c(1,1))
+par(cex.axis = 0.7, mfrow = c(1,2))
 plot(OriginalData$`SLEDAI 2k Score`, OriginalData$`Plasma OPG [pg/mL]`,
      col = 'black', xlab = 'SLEDAI score', ylab = "OPG plasma levels (pg/mL)", 
-     main = 'Original OPG plasma [pg/mL] vs patient SLEDAI 2k score', 
      xlim = c(0, 28), xaxt = 'n')
+axis(side = 1, at = seq(0, 28, by = 1))
+mtext("Plasma OPG [pg/mL] vs patient SLEDAI 2K score",
+      outer = FALSE, cex = 1, side = 3, line = 1, adj = 0)
+boxplot(OriginalData$`Plasma OPG [pg/mL]`~OriginalData$`SLEDAI 2k Score`, 
+        col = 'grey', xlab = 'SLEDAI score', ylab = NULL,
+        xlim = c(0, 28), xaxt = 'n')
 axis(side = 1, at = seq(0, 28, by = 1))
 
 ##Linear Regression
@@ -70,21 +78,33 @@ model <- glm(`Plasma OPG [pg/mL]` ~ `Age at Diagnosis (years)` + `Time since Dia
             `Age (years)` + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`, 
             data = OriginalData)
 summary(model)
+#model_sledai <- glm(`SLEDAI 2k Score` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
+               #`Age (years)` + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`, 
+            # data = OriginalData)
+#summary(model_sledai)
+cor.test(OriginalData$`SLEDAI 2k Score`, model[["fitted.values"]], method = 'pearson')
 par(mfrow = c(2,2))
 plot(model)
 opg_sledai <- data.frame(OriginalData$`SLEDAI 2k Score`, model[["fitted.values"]])
+#or: model_sledai[["fitted.values"]]
 colnames(opg_sledai) <- c('SLEDAI 2k score', 'Adjusted OPG [pg/mL}')
 
 ##I also like to make one extra data frame with the patient IDs to make sure R is putting together 
 ##the right OPG value and SLEDAI score
-opg_sledai_patientID <- data.frame(OriginalData$`Patient ID`, OriginalData$`SLEDAI 2k Score`, model[["fitted.values"]])
+opg_sledai_patientID <- data.frame(OriginalData$`Patient ID`, OriginalData$`SLEDAI 2k Score`, 
+                                   model[["fitted.values"]])
 colnames(opg_sledai_patientID) <- c('Patient ID', 'SLEDAI 2k score', 'Adjusted OPG [pg/mL}')
 
-par(mfrow = c(1,1), cex.axis = 0.7)
+par(mfrow = c(1,2), cex.axis = 0.7)
 plot(opg_sledai$`SLEDAI 2k score`, opg_sledai$`Adjusted OPG [pg/mL}`, 
-     xlab = 'SLEDAI 2K score', ylab = 'Adjusted OPG [pg/mL]', col = 'deepskyblue4', 
-     main = 'Adjusted OPG values [pg/mL] vs Patient SLEDAI 2k score', 
+     xlab = 'SLEDAI 2K score', ylab = 'Adjusted OPG [pg/mL]', col = 'deepskyblue4',
      xlim = c(0, 28), xaxt = 'n')
+axis(side = 1, at = seq(0, 28, by = 1))
+mtext("Adjusted OPG [pg/mL] vs patient SLEDAI 2K score",
+      outer = FALSE, cex = 1, side = 3, line = 1, adj = 0)
+boxplot(opg_sledai$`Adjusted OPG [pg/mL}`~opg_sledai$`SLEDAI 2k score`, 
+        xlab = 'SLEDAI 2K score', ylab = NULL, col = 'deepskyblue4',
+        xlim = c(0, 28), xaxt = 'n')
 axis(side = 1, at = seq(0, 28, by = 1))
 
 ##Moving on from the confounding, we can do a similar thing for the biomarkers
@@ -114,7 +134,7 @@ oxLDL_model <- glm(`ox LDL [ng/mL]` ~ `Age at Diagnosis (years)` + `Time since D
 sVCAM1_model <- glm(`sVCAM-1 [ng/mL]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
                      `Age (years)` + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`,
                 data = OriginalData)
-LDL_model <- glm(`LDH [u/L]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
+LDH_model <- glm(`LDH [u/L]` ~ `Age at Diagnosis (years)` + `Time since Diagnosis (years)` +
                   `Age (years)` + `BMI (kg/m^2)` + `IFN type I [IU/mL]` + Ethnicity + `Menopausal Status`,
                 data = OriginalData)
 
@@ -125,7 +145,7 @@ adjusted_biomarkers <- data.frame(model[["fitted.values"]], vWF_model[["fitted.v
                                  tm_model[["fitted.values"]], 
                                  oxLDL_model[["fitted.values"]], 
                                  sVCAM1_model[["fitted.values"]], 
-                                 LDL_model[["fitted.values"]])
+                                 LDH_model[["fitted.values"]])
 colnames(adjusted_biomarkers) <- c('Plasma OPG [pg/mL]' ,'vWF [IU/mL]', 'sDC1 [ng/mL]', 
                                   'TM [ng/mL]', 'ox LDL [ng/mL]', 
                                   'sVCAM-1 [ng/mL]', 'LDH [u/L]')
@@ -136,10 +156,19 @@ adjusted_biomarkers_patientID <- data.frame(OriginalData$`Patient ID`, OriginalD
                                   tm_model[["fitted.values"]], 
                                   oxLDL_model[["fitted.values"]], 
                                   sVCAM1_model[["fitted.values"]], 
-                                  LDL_model[["fitted.values"]])
+                                  LDH_model[["fitted.values"]])
 colnames(adjusted_biomarkers_patientID) <- c('Patient ID', 'SLEDAI 2k score', 'Plasma OPG [pg/mL]' ,'vWF [IU/mL]', 'sDC1 [ng/mL]', 
                                    'TM [ng/mL]', 'ox LDL [ng/mL]', 
                                    'sVCAM-1 [ng/mL]', 'LDH [u/L]')
+
+#correlation tests
+cor.test(OriginalData$`SLEDAI 2k Score`, vWF_model[["fitted.values"]], method = 'pearson')
+cor.test(OriginalData$`SLEDAI 2k Score`, sDC1_model[["fitted.values"]], method = 'pearson')
+cor.test(OriginalData$`SLEDAI 2k Score`, tm_model[["fitted.values"]], method = 'pearson')
+cor.test(OriginalData$`SLEDAI 2k Score`, oxLDL_model[["fitted.values"]], method = 'pearson')
+cor.test(OriginalData$`SLEDAI 2k Score`, sVCAM1_model[["fitted.values"]], method = 'pearson')
+cor.test(OriginalData$`SLEDAI 2k Score`, LDH_model[["fitted.values"]], method = 'pearson')
+
 
 par(mfrow = c(1, 2), cex.axis = 0.7)
 #plot vWF
@@ -199,7 +228,7 @@ boxplot(adjusted_biomarkers$`sVCAM-1 [ng/mL]`~OriginalData$`SLEDAI 2k Score`,
 axis(side = 1, at = seq(0, 28, by = 1))
 #plot LDH
 plot(OriginalData$`SLEDAI 2k Score`, adjusted_biomarkers$`LDH [u/L]`,
-     xlab = 'SLEDAI 2K score', ylab = 'Adjusted LDL [IU/L]', col = 'royalblue4', 
+     xlab = 'SLEDAI 2K score', ylab = 'Adjusted LDH [U/L]', col = 'royalblue4', 
      xlim = c(0, 28), xaxt = 'n')
 axis(side = 1, at = seq(0, 28, by = 1))
 mtext('Adjusted LDH values [IU/mL] vs Patient SLEDAI 2k score',
